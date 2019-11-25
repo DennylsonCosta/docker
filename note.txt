@@ -54,3 +54,6 @@ WORKDIR /var/www/html
 * Comando para rodar o container do php
 docker run -d -v /e/dev/docker/php/website:/var/www/html -p 8888:80 --link node-container --rm --name php-container php-image
 
+
+# Composer
+docker run --rm -it --volume E:\dev\facilita\sistema:/app composer update
