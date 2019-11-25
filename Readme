@@ -1,0 +1,56 @@
+# Para o docker de mysql
+
+FROM mysql <- define a imagem 
+ENV MYSQL_ROOT_PASSWORD 123456 <- define a senha do banco de dados
+
+* O comando a seguir cria a imagem com as configurações do dockerfile
+docker build -t mysql-image -f docker/mysql/Dockerfile .
+
+* Este comando lista as imagens existentes
+docker image ls
+
+* Este comando cria e inicializa o container
+docker run -d -v /e/dev/docker/mysql/data:/var/lib/mysql --rm --name mysql-container mysql-image
+    docker run 
+    -d <- roda em segundo plano
+    -v /e/dev/docker/mysql/data:/var/lib/mysql <- define uma pasta para ser compartilhada com o container, não deixando perder informações/dados quando o container for encerrado
+    --rm <- caso ja exista um container com esse nome, ele é removido e criado novamente
+    --name mysql-container <- é definido o nome do container
+    mysql-image <- nome da imagem a ser utilizada
+
+* Este comando lista os containers em execução
+docker ps
+
+* Comando para executar um comando dentro do containerdocker exec -i mysql-container mysql -uroot -p123456 < docker/mysql/script.sql
+
+    docker exec 
+    -i <- flag para definir que sera interativo
+    mysql-container <- em qual container será executado o comando
+    mysql -uroot -p123456 < docker/mysql/script.sql <- o comando a ser executado
+
+* Comando para executar a linha de comando do container
+docker exec -it mysql-container //bin//bash
+docker exec 
+-it <- modo interativo pelo terminal
+mysql-container <- nome do container
+//bin//bash <- usando duas barras para escapar a barra e executar o comando dentro do container
+
+* Comando para ver as informações do container
+docker inspect mysql-container
+
+# Para o docker do node
+FROM node:10-slim <- imagem utilizada para o node, passando a versão
+WORKDIR /home/node/app
+CMD npm start <- executa o comando assim que o container estiver pronto
+
+* Comando para rodar o container direcionando a porta
+docker run -d -v /e/dev/docker/api:/home/node/app -p 9001:9001 --link mysql-container --rm --name node-container node-image
+-p 9001:9001 <- Direcionando a rota 9001 do host(windows) para o container
+
+# Para o docker do php
+FROM php:7.2-apache
+WORKDIR /var/www/html
+
+* Comando para rodar o container do php
+docker run -d -v /e/dev/docker/php/website:/var/www/html -p 8888:80 --link node-container --rm --name php-container php-image
+
