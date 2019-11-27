@@ -21,7 +21,8 @@ docker run -d -v /e/dev/docker/mysql/data:/var/lib/mysql --rm --name mysql-conta
 * Este comando lista os containers em execução
 docker ps
 
-* Comando para executar um comando dentro do containerdocker exec -i mysql-container mysql -uroot -p123456 < docker/mysql/script.sql
+* Comando para executar um comando dentro do container 
+docker exec -i mysql-container mysql -uroot -p123456 < docker/mysql/script.sql
 
     docker exec 
     -i <- flag para definir que sera interativo
