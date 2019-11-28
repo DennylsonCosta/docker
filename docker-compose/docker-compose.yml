@@ -1,0 +1,9 @@
+nginx:
+  build: "."
+  container_name: debian-api
+  restart: always
+  volumes:
+    - /Users/dennylsoncosta/dev/docker/docker-compose/php:/var/www/html
+    - /Users/dennylsoncosta/dev/docker/docker-compose/nginx/sites-available:/etc/nginx/sites-available
+  ports:
+    - "8088:80"
