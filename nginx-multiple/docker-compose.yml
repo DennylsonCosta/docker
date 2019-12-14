@@ -1,0 +1,7 @@
+web:
+  restart: always
+  image: nginx
+  ports:
+    - "80:80"
+  volumes:
+    - /Users/dennylsoncosta/dev/docker/nginx-multiple/www:/usr/share/nginx/html

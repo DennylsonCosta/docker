@@ -1,5 +1,5 @@
 nginx:
-  build: "."
+  image: debian-nginx:latest
   container_name: server-container
   restart: always
   volumes:

@@ -1,0 +1,41 @@
+version: '3'
+services:
+  web:
+    image: nginx:alpine
+    ports:
+      - 80:80
+    volumes:
+      - ./data/php:/public_html
+      - ./conf.d:/etc/nginx/conf.d
+      - ./data/logs/Nginx:/var/log/nginx
+    networks:
+      - nginxphp
+    links:
+      - mysql
+
+  php:
+    build: PHP
+    volumes:
+      - ./data/php:/public_html
+    expose:
+      - 9000
+    networks:
+      - nginxphp
+    links:
+      - mysql
+
+  mysql:
+    image: mysql:8.0.1
+    restart: always
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=F@CILITA
+      - MYSQL_DATABASE=dennylson_ajustes
+    volumes:
+    -   ./data/db:/var/lib/mysql
+    networks:
+      - nginxphp
+
+networks: 
+  nginxphp:
